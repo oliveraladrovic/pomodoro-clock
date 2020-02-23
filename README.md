@@ -1,4 +1,4 @@
-# JavaScript Calculator
+# Pomodoro Clock
 
 [freeCodeCamp](https://www.freecodecamp.org/) Front End Libraries certificate challenge no. 5.
 
