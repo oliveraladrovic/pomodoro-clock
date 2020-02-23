@@ -19,8 +19,9 @@ class App extends Component {
   };
 
   startStop = () => {
-    if (this.state.interval === null) {
-      let interval = setInterval(() => {
+    let interval = this.state.interval;
+    if (interval === null) {
+      interval = setInterval(() => {
         if (this.state.timeLeft === 0) {
           this.setState({
             cycle: this.state.cycle === 'Session' ? 'Break' : 'Session',
@@ -31,14 +32,16 @@ class App extends Component {
           });
         } else {
           this.setState({
-            timeLeft: this.state.timeLeft - 1,
-            interval: interval
+            timeLeft: this.state.timeLeft - 1
           });
           if (this.state.timeLeft === 0) {
             document.querySelector('#beep').play();
           }
         }
       }, 1000);
+      this.setState({
+        interval: interval
+      });
     } else {
       clearInterval(this.state.interval);
       this.setState({
@@ -100,60 +103,72 @@ class App extends Component {
     const { breakLength, sessionLength, timeLeft, cycle } = this.state;
     return (
       <div id='app'>
-        <label id='break-label'>Break Length</label>
-        <button
-          id='break-decrement'
-          onClick={() => {
-            this.breakDecrement();
-          }}
-        >
-          decrement
-        </button>
-        <label id='break-length'>{breakLength}</label>
-        <button
-          id='break-increment'
-          onClick={() => {
-            this.breakIncrement();
-          }}
-        >
-          increment
-        </button>
-        <label id='session-label'>Seession Length</label>
-        <button
-          id='session-decrement'
-          onClick={() => {
-            this.sessionDecrement();
-          }}
-        >
-          decrement
-        </button>
-        <label id='session-length'>{sessionLength}</label>
-        <button
-          id='session-increment'
-          onClick={() => {
-            this.sessionIncrement();
-          }}
-        >
-          increment
-        </button>
+        <div className='row'>
+          <div className='column'>
+            <label id='break-label'>Break Length</label>
+            <div className='row'>
+              <button
+                id='break-decrement'
+                onClick={() => {
+                  this.breakDecrement();
+                }}
+              >
+                &lt;
+              </button>
+              <label id='break-length'>{breakLength}</label>
+              <button
+                id='break-increment'
+                onClick={() => {
+                  this.breakIncrement();
+                }}
+              >
+                &gt;
+              </button>
+            </div>
+          </div>
+          <div className='column'>
+            <label id='session-label'>Session Length</label>
+            <div className='row'>
+              <button
+                id='session-decrement'
+                onClick={() => {
+                  this.sessionDecrement();
+                }}
+              >
+                &lt;
+              </button>
+              <label id='session-length'>{sessionLength}</label>
+              <button
+                id='session-increment'
+                onClick={() => {
+                  this.sessionIncrement();
+                }}
+              >
+                &gt;
+              </button>
+            </div>
+          </div>
+        </div>
         <label id='timer-label'>{cycle}</label>
         <label id='time-left'>{this.formatTime(timeLeft)}</label>
-        <button
-          id='start_stop'
-          onClick={() => {
-            this.startStop();
-          }}
-        >
-          start-stop
-        </button>
-        <button
-          id='reset'
-          onClick={() => {
-            this.reset();
-          }}
-        >
-          reset
-        </button>
+        <div className='row'>
+          <button
+            id='start_stop'
+            onClick={() => {
+              this.startStop();
+            }}
+          >
+            start-stop
+          </button>
+          <button
+            id='reset'
+            onClick={() => {
+              this.reset();
+            }}
+          >
+            reset
+          </button>
+        </div>
         <audio id='beep' src={beep}></audio>
       </div>
     );
